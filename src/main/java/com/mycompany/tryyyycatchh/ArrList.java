@@ -73,7 +73,7 @@ public class ArrList {
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - 1 - i; j++) {
                 if (students.get(j).getMarks() > students.get(j + 1).getMarks()) {
-              
+
                     Student temp = students.get(j);
                     students.set(j, students.get(j + 1));
                     students.set(j + 1, temp);
@@ -81,4 +81,55 @@ public class ArrList {
             }
         }
     }
+    // (Selection Sort)
+
+    public void sortStudentsById() {
+        int n = students.size();
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (students.get(j).getId() < students.get(minIndex).getId()) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                Student temp = students.get(i);
+                students.set(i, students.get(minIndex));
+                students.set(minIndex, temp);
+            }
+        }
+    }
+
+    // Binary Search by Marks
+    public Student binarySearchByMarks(int targetMarks) {
+        // First sort the students list by marks
+        sortStudentsByMarks();
+        int left = 0, right = students.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (students.get(mid).getMarks() == targetMarks) {
+                return students.get(mid);
+            }
+            if (students.get(mid).getMarks() < targetMarks) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return null; // If not found
+    }
+
+      // Linear Search - Search for a student by name
+    public ArrayList<Student> searchStudentByName(String name) {
+        ArrayList<Student> result = new ArrayList<>();
+        for (Student student : students) {
+            if (student.getName().equalsIgnoreCase(name)) {
+                result.add(student);
+            }
+        }
+        return result;
+    }
+   
+
 }
